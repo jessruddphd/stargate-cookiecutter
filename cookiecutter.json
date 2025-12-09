@@ -7,6 +7,7 @@
   "databricks_qa_host": "https://fdg-data-eng-qa.cloud.databricks.com",
   "databricks_prd_host": "https://fdg-data-eng-prd.cloud.databricks.com",
   "include_qa_environment": ["yes", "no"],
+  "initialize_git_repo": ["yes", "no"],
   "dev_cluster_policy_id": "YOUR_DEV_CLUSTER_POLICY_ID",
   "qa_cluster_policy_id": "SKIP_IF_NO_QA",
   "prd_cluster_policy_id": "YOUR_PRD_CLUSTER_POLICY_ID",

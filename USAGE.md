@@ -62,6 +62,14 @@ cookiecutter https://github.com/jessruddphd/stargate-cookiecutter.git
 
 **If you select "no"**, press Enter to accept defaults for all QA variables below.
 
+### initialize_git_repo
+- **Description**: Automatically initialize Git repository with branches
+- **Options**: `yes` (default) or `no`
+- **Impact**:
+  - `yes`: Creates Git repo, initial commit, and `dev` + `main` branches (dev as default)
+  - `no`: Skip Git initialization (you'll need to do it manually)
+- **Note**: Requires Git to be installed
+
 ---
 
 ## Cluster Policies

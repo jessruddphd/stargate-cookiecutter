@@ -31,6 +31,9 @@ cookiecutter https://github.com/jessruddphd/stargate-cookiecutter.git
 
 - **include_qa_environment**: Choose `yes` or `no` for QA environment
   - If `no`, press Enter for all QA variables (defaults: `SKIP_IF_NO_QA`)
+- **initialize_git_repo**: Choose `yes` to auto-create Git repo with `dev` and `main` branches
+  - If `yes`, creates initial commit and sets `dev` as default branch
+  - If `no`, you'll need to initialize Git manually
 - **Cluster policy IDs**: Get from Databricks → Compute → Policies
 - **Service principal IDs**: Get from Databricks → Settings → Service principals
 - **Catalogs/schemas**: Your Unity Catalog locations
@@ -40,7 +43,10 @@ cookiecutter https://github.com/jessruddphd/stargate-cookiecutter.git
 
 ```bash
 cd <your-project-name>
-git init && git add . && git commit -m "Initial commit"
+
+# If you didn't choose to initialize Git automatically:
+# git init && git add . && git commit -m "Initial commit"
+# git checkout -b dev
 
 # Authenticate and deploy
 databricks auth login --host <your-dev-host> --profile dev
