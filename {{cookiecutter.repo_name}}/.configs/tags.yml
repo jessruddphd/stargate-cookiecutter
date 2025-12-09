@@ -1,0 +1,33 @@
+variables:
+  tags:
+    description: 'Resource tags for compute and storage in Databricks'
+    type: complex
+    default:
+      bu: {{ cookiecutter.business_unit }}
+      persona: {{ cookiecutter.persona }}
+      team: {{ cookiecutter.team_name }}
+      team_email: {{ cookiecutter.team_email }}
+  
+  environment:
+    description: 'Environment name for tagging'
+  
+  cluster_tags:
+    description: 'Required cluster tags'
+    type: complex
+    default:
+      repo: {{ cookiecutter.repo_name }}
+      regulated_sox: "no"
+      priority: P4
+
+targets:
+  dev:
+    variables:
+      environment: development
+  
+  qa:
+    variables:
+      environment: preprod
+  
+  prd:
+    variables:
+      environment: production

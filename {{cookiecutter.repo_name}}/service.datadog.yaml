@@ -1,0 +1,33 @@
+schema-version: v2.2
+dd-service: {{ cookiecutter.repo_name }}
+team: {{ cookiecutter.team_name }}
+application: {{ cookiecutter.repo_name }}
+description: {{ cookiecutter.project_short_description }}
+tier: p3
+lifecycle: experimental
+type: custom
+contacts:
+  - type: slack
+    name: Databricks
+    contact: https://fanduel.slack.com/archives/C01BW6MMKNC
+  - type: email
+    name: {{ cookiecutter.team_name }}
+    contact: {{ cookiecutter.team_email }}
+links:
+  - name: {{ cookiecutter.repo_name }}
+    type: repo
+    url: https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.repo_name }}
+    provider: github
+  - name: Build Pipeline
+    type: other
+    url: https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.repo_name }}/actions
+  - name: Deploy Pipeline
+    type: other
+    url: https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.repo_name }}/actions
+tags:
+  - kind:transformation
+  - business_unit:{{ cookiecutter.business_unit }}
+  - domain:data
+  - vertical:{{ cookiecutter.persona }}
+  - team:{{ cookiecutter.team_name }}
+  - platform:aws

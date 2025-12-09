@@ -1,0 +1,44 @@
+# This workflow validates, deploys, and runs the specified bundle
+# within a production target named "prd".
+name: 'Production Deployment'
+run-name: {% raw %}${{ github.actor }}{% endraw %} deployed to Production 🚀
+
+# Ensure that only a single job or workflow using the same concurrency group
+# runs at a time.
+concurrency: 1
+
+# Trigger this workflow whenever a push is made to the main branch.
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  DATABRICKS_BUNDLE_ENV: prd
+  DATABRICKS_AUTH_TYPE: github-oidc
+  DATABRICKS_HOST: {{ cookiecutter.databricks_prd_host }}/
+  DATABRICKS_CLIENT_ID: {{ cookiecutter.prd_service_principal_id }}
+
+jobs:
+  deploy:
+    name: 'Deploy bundle'
+    runs-on: ubuntu-latest
+    environment: prd
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate Bundle Before Deployment
+        id: validate
+        run: databricks bundle validate --target prd
+
+      - name: Deploy Bundle To Workspace
+        run: databricks bundle deploy --target prd

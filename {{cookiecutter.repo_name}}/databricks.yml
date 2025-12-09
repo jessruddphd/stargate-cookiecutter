@@ -1,0 +1,71 @@
+# This is a Databricks asset bundle definition for {{ cookiecutter.project_name }}.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: {{ cookiecutter.repo_name }}
+
+include:
+- projects/*.yml
+- resources/*.yml
+- .configs/*.yml
+
+variables:
+  service_principal_id:
+    description: The service principal ID to use for running jobs
+  tags:
+    description: The tags to use for resources
+
+targets:
+  dev:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    git:
+      branch: dev
+    workspace:
+      host: {{ cookiecutter.databricks_dev_host }}
+    permissions:
+      - level: CAN_MANAGE
+        group_name: "analytics_engineering"
+      - level: CAN_MANAGE
+        group_name: "${var.tags.team}"
+    run_as:
+      service_principal_name: ${var.service_principal_id}
+    presets:
+      trigger_pause_status: PAUSED
+      tags:
+        ${var.tags}
+
+{% if cookiecutter.include_qa_environment == "yes" %}
+  qa:
+    mode: preprod
+    git:
+      branch: qa
+    workspace:
+      host: {{ cookiecutter.databricks_qa_host }}
+    permissions:
+      - level: CAN_VIEW
+        group_name: "{{ cookiecutter.team_name }}"
+    run_as:
+      service_principal_name: ${var.service_principal_id}
+    presets:
+      trigger_pause_status: PAUSED
+      tags:
+        ${var.tags}
+{% endif %}
+  prd:
+    mode: production
+    git:
+      branch: main
+    workspace:
+      host: {{ cookiecutter.databricks_prd_host }}
+    permissions:
+      - level: CAN_VIEW
+        group_name: "{{ cookiecutter.team_name }}"
+    run_as:
+      service_principal_name: ${var.service_principal_id}
+    presets:
+      tags:
+        ${var.tags}

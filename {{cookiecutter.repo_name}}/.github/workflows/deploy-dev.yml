@@ -1,0 +1,74 @@
+# This workflow validates, deploys, and runs the specified bundle
+# within a development target named "dev".
+name: 'Dev Deployment'
+run-name: {% raw %}${{ github.actor }}{% endraw %} deployed to Dev 🚀
+
+# Ensure that only a single job or workflow using the same concurrency group
+# runs at a time.
+concurrency: 1
+
+# Trigger this workflow whenever a push is made to the dev branch.
+on:
+  push:
+    branches:
+      - dev
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  DATABRICKS_BUNDLE_ENV: dev
+  DATABRICKS_AUTH_TYPE: github-oidc
+  DATABRICKS_HOST: {{ cookiecutter.databricks_dev_host }}/
+  DATABRICKS_CLIENT_ID: {{ cookiecutter.dev_service_principal_id }}
+
+jobs:
+  # Used by the "pipeline_update" job to deploy the bundle.
+  # Bundle validation is automatically performed as part of this deployment.
+  # If validation fails, this workflow fails.
+  deploy:
+    name: 'Deploy bundle'
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      # Check out this repo, so that this workflow can access it.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # See https://github.com/databricks/setup-cli
+      - name: Install Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate Bundle Before Deployment
+        id: validate
+        run: databricks bundle validate --target dev
+
+      # Deploy the bundle to the "dev" target as defined
+      # in the bundle's settings file.
+      - name: Deploy Bundle To Workspace
+        run: databricks bundle deploy --target dev
+
+
+  # # Validate, deploy, and then run the bundle.
+  # pipeline_update:
+  #   name: 'Run pipeline update'
+  #   runs-on: ubuntu-latest
+  #   environment: dev
+
+  #   # Run the "deploy" job first.
+  #   needs:
+  #     - deploy
+
+  #   steps:
+  #     # Check out this repo, so that this workflow can access it.
+  #     - uses: actions/checkout@v4
+
+  #     # Use the downloaded Databricks CLI.
+  #     - uses: databricks/setup-cli@main
+
+  #     # Run the Databricks workflow named "my-job" as defined in the
+  #     # bundle that was just deployed.
+  #     - run: databricks bundle run my-job --refresh-all
+  #       working-directory: .

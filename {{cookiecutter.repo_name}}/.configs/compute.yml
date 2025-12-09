@@ -1,0 +1,41 @@
+variables:
+  cluster_policy_id:
+    description: "Cluster policy ID used to create job clusters"
+    # This will be overridden in each target environment
+
+  service_principal_id:
+      description: "Service principal ID used to run jobs and manage resources"
+      # This will be overridden in each target environment
+  
+  # Standard cluster configurations
+  spark_version:
+    description: "Spark version for job clusters"
+    default: "{{ cookiecutter.spark_version }}"
+  
+  node_type_id:
+    description: "Node type for job clusters"
+    default: "{{ cookiecutter.node_type_id }}"
+  
+  min_workers:
+    description: "Minimum number of workers for autoscaling"
+    default: {{ cookiecutter.min_workers }}
+  
+  max_workers:
+    description: "Maximum number of workers for autoscaling"
+    default: {{ cookiecutter.max_workers }}
+  
+targets:
+  dev:
+    variables:
+      cluster_policy_id: "{{ cookiecutter.dev_cluster_policy_id }}"
+      service_principal_id: "{{ cookiecutter.dev_service_principal_id }}"
+{% if cookiecutter.include_qa_environment == "yes" %}
+  qa:
+    variables:
+      cluster_policy_id: "{{ cookiecutter.qa_cluster_policy_id }}"
+      service_principal_id: "{{ cookiecutter.qa_service_principal_id }}"
+{% endif %}
+  prd:
+    variables:
+      cluster_policy_id: "{{ cookiecutter.prd_cluster_policy_id }}"
+      service_principal_id: "{{ cookiecutter.prd_service_principal_id }}"

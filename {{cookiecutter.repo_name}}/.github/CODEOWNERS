@@ -1,0 +1,11 @@
+# This file tells GitHub that changes to certain parts of the repo must be approved by certain people/teams.
+#
+# See the following for more info
+# https://help.github.com/en/articles/about-code-owners
+
+.configs/* @{{ cookiecutter.github_org }}/core-data-infrastructure
+.github/workflows/* @{{ cookiecutter.github_org }}/core-data-infrastructure
+databricks.yml @{{ cookiecutter.github_org }}/core-data-infrastructure
+src/* @{{ cookiecutter.github_org }}/core-data-infrastructure
+
+projects/* @{{ cookiecutter.github_org }}/{{ cookiecutter.codeowners_team }}

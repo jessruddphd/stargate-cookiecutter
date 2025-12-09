@@ -1,0 +1,29 @@
+variables:
+  catalog:
+    description: The catalog to use
+  schema:
+    description: The schema to use
+  core_catalog:
+    description: The catalog to use for core source tables
+    default: {{ cookiecutter.core_catalog }}
+  notifications:
+    description: The email addresses to use for failure notifications
+
+targets:
+  dev:
+    variables:
+      catalog: {{ cookiecutter.dev_catalog }}
+      schema: {{ cookiecutter.dev_schema }}
+      notifications: []
+{% if cookiecutter.include_qa_environment == "yes" %}
+  qa:
+    variables:
+      catalog: {{ cookiecutter.qa_catalog }}
+      schema: {{ cookiecutter.qa_schema }}
+      notifications: []
+{% endif %}
+  prd:
+    variables:
+      catalog: {{ cookiecutter.prd_catalog }}
+      schema: {{ cookiecutter.prd_schema }}
+      notifications: []

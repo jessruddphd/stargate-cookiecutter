@@ -1,0 +1,80 @@
+resources:
+  jobs:
+    Example_Project_Job:
+      name: "Example_Project_Job"
+      
+      # Schedule (optional - comment out for manual-only jobs)
+      schedule:
+        quartz_cron_expression: 0 0 8 * * ?  # Daily at 8 AM
+        timezone_id: America/New_York
+        pause_status: PAUSED
+      
+      max_concurrent_runs: 1
+      
+      # Job parameters with bundle variable defaults
+      # These can be overridden when running manually
+      parameters:
+        - name: catalog
+          default: ${var.catalog}
+        - name: schema
+          default: ${var.schema}
+        - name: core_catalog
+          default: ${var.core_catalog}
+        - name: refresh
+          default: "False"
+      
+      tasks:
+        - task_key: Example_Transformation
+          job_cluster_key: Example_Compute
+          notebook_task:
+            notebook_path: ../projects/example_project/transformations/example_transformation.ipynb
+            base_parameters:
+              catalog: {% raw %}"{{job.parameters.catalog}}"{% endraw %}
+              schema: {% raw %}"{{job.parameters.schema}}"{% endraw %}
+              core_catalog: {% raw %}"{{job.parameters.core_catalog}}"{% endraw %}
+              refresh: {% raw %}"{{job.parameters.refresh}}"{% endraw %}
+      
+      # Job cluster configuration using shared variables
+      job_clusters:
+        - job_cluster_key: Example_Compute
+          new_cluster:
+            spark_version: ${var.spark_version}
+            aws_attributes:
+              first_on_demand: 1
+              availability: SPOT_WITH_FALLBACK
+              zone_id: auto
+              spot_bid_price_percent: 100
+              instance_profile_arn: ""
+            node_type_id: ${var.node_type_id}
+            policy_id: ${var.cluster_policy_id}
+            enable_elastic_disk: false
+            workload_type:
+              clients:
+                notebooks: false
+                jobs: true
+            data_security_mode: SINGLE_USER
+            runtime_engine: STANDARD
+            kind: CLASSIC_PREVIEW
+            is_single_node: false
+            autoscale:
+              min_workers: ${var.min_workers}
+              max_workers: ${var.max_workers}
+            custom_tags:
+              repo: {{ cookiecutter.repo_name }}
+              regulated_sox: "no"
+              priority: P4
+              env: ${var.environment}
+      
+      # Notification settings
+      notification_settings:
+        no_alert_for_skipped_runs: true
+      
+      email_notifications:
+        on_success:
+          - {{ cookiecutter.author_email }}
+        on_failure:
+          - {{ cookiecutter.author_email }}
+      
+      # Enable job queueing
+      queue:
+        enabled: true
