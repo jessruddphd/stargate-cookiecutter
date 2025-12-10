@@ -24,8 +24,11 @@ stargate-cookiecutter/
 │   ├── .configs/
 │   │   ├── compute.yml                 # Cluster policies & service principals
 │   │   ├── storage.yml                 # Catalogs & schemas
-│   │   └── tags.yml                    # Resource tags
-│   ├── projects/
+│   │   ├── projects/                        # Data pipeline projects
+│   │   ├── src/                         # Shared utilities across all projects
+│   │   │   ├── __init__.py
+│   │   │   ├── environment_config.py    # Environment-aware configuration
+│   │   │   └── README.md
 │   │   └── example_project/
 │   │       ├── explorations/
 │   │       ├── transformations/
@@ -243,6 +246,30 @@ Resource tagging configuration.
 - Business unit, persona, team tags
 - Environment-specific tags
 - Cluster tags
+
+### projects/src/
+
+Shared utilities across all projects in the repository.
+
+**Files:**
+- `__init__.py` - Package initialization
+- `environment_config.py` - Environment-aware configuration class
+- `README.md` - Usage documentation
+
+**Key features:**
+- `EnvironmentConfig` class for environment detection
+- Automatic catalog/schema resolution based on environment
+- Helper methods for table path construction
+- Works with Databricks bundle variables
+
+**Usage in notebooks:**
+```python
+from src.environment_config import EnvironmentConfig
+
+config = EnvironmentConfig()
+table_path = config.get_table_path("my_table")
+source_path = config.get_core_table_path("sportsbook", "bet_legs")
+```
 
 ---
 
