@@ -53,11 +53,11 @@ output_table = config.get_table_path("my_analysis_results")
 
 # Get path for core source tables
 bet_legs = config.get_core_table_path("sportsbook", "bet_legs")
-# Returns: "{{ cookiecutter.dev_core_catalog }}.sportsbook.bet_legs" (in dev)
-# Returns: "{{ cookiecutter.prd_core_catalog }}.sportsbook.bet_legs" (in prd)
+# Returns: "dev_{{ cookiecutter.core_catalog }}.sportsbook.bet_legs" (in dev)
+# Returns: "{{ cookiecutter.core_catalog }}.sportsbook.bet_legs" (in prd)
 
 retail_legs = config.get_core_table_path("sportsbook_retail", "gameplay_legs")
-# Returns: "{{ cookiecutter.dev_core_catalog }}.sportsbook_retail.gameplay_legs" (in dev)
+# Returns: "dev_{{ cookiecutter.core_catalog }}.sportsbook_retail.gameplay_legs" (in dev)
 ```
 
 ### Using in SQL Queries
@@ -121,7 +121,7 @@ The `EnvironmentConfig` class reads configuration from Databricks bundle variabl
 
 - `bundle.catalog` - The catalog for output tables (e.g., '{{ cookiecutter.dev_catalog }}', '{{ cookiecutter.prd_catalog }}')
 - `bundle.schema` - The schema for output tables (e.g., '{{ cookiecutter.dev_schema }}')
-- `bundle.core_catalog` - The catalog for core source tables (e.g., '{{ cookiecutter.dev_core_catalog }}', '{{ cookiecutter.prd_core_catalog }}')
+- `bundle.core_catalog` - The catalog for core source tables (e.g., 'dev_{{ cookiecutter.core_catalog }}', '{{ cookiecutter.core_catalog }}')
 
 These variables are defined in:
 - `.configs/storage.yml` - Defines the variables and their values per environment
