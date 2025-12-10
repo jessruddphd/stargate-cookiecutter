@@ -31,8 +31,6 @@ targets:
         group_name: "analytics_engineering"
       - level: CAN_MANAGE
         group_name: "${var.tags.team}"
-    run_as:
-      service_principal_name: ${var.service_principal_id}
     presets:
       trigger_pause_status: PAUSED
       tags:
