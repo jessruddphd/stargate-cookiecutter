@@ -48,6 +48,10 @@ This repository uses **Databricks Asset Bundles (DABs)** to manage and deploy da
 │   ├── storage.yml         # Catalog and schema configurations
 │   └── tags.yml            # Resource tagging standards
 ├── projects/               # Data pipeline projects
+│   ├── src/                # Shared utilities across all projects
+│   │   ├── __init__.py
+│   │   ├── environment_config.py  # Environment-aware configuration
+│   │   └── README.md
 │   └── example_project/    # Reference implementation template
 │       ├── explorations/   # Ad-hoc analysis notebooks
 │       ├── transformations/ # Production data transformations

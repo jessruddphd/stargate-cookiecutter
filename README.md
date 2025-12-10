@@ -6,10 +6,11 @@ A cookiecutter template for creating standardized Databricks Asset Bundle (DAB) 
 
 - 🚀 **Multi-environment setup**: Dev, optional QA, and Production
 - 📦 **Modular structure**: Example notebooks, utilities, and job definitions
-- 🔒 **Environment-aware config**: Separate settings per environment
+- 🔒 **Environment-aware config**: Shared `EnvironmentConfig` class for automatic catalog/schema resolution
 - 🔄 **CI/CD ready**: GitHub Actions workflows included
 - 📊 **Best practices**: Example transformations with error handling and logging
 - 🏷️ **Standardized tagging**: Resource governance and cost tracking
+- 📈 **Datadog integration**: Service catalog configuration included
 
 ---
 
@@ -93,8 +94,15 @@ stargate-cookiecutter/
 ├── {{cookiecutter.repo_name}}/         # Generated project template
 │   ├── .github/workflows/              # CI/CD pipelines
 │   ├── .configs/                       # Environment configurations
-│   ├── projects/example_project/       # Example notebooks
-│   ├── resources/                      # Job definitions
+│   ├── projects/               # Data pipeline projects
+│   │   ├── src/                # Shared utilities across all projects
+│   │   │   ├── environment_config.py  # Environment-aware configuration
+│   │   │   └── README.md
+│   │   └── example_project/    # Reference implementation
+│   │       ├── explorations/   # Ad-hoc analysis notebooks
+│   │       ├── transformations/ # Production data transformations
+│   │       └── utilities/      # Reusable utility functions
+│   ├── resources/              # Job definitions (*.job.yml)
 │   └── databricks.yml                  # Main DAB config
 ├── README.md                           # This file
 ├── USAGE.md                            # Variable reference
