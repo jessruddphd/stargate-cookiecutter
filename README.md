@@ -95,13 +95,13 @@ stargate-cookiecutter/
 │   ├── .github/workflows/              # CI/CD pipelines
 │   ├── .configs/                       # Environment configurations
 │   ├── projects/               # Data pipeline projects
-│   ├── src/                # Shared utilities across all projects
-│   │   ├── environment_config.py  # Environment-aware configuration
-│   │   └── README.md
-│   └── example_project/    # Reference implementation
-│       ├── explorations/   # Ad-hoc analysis notebooks
-│       ├── transformations/ # Production data transformations
-│       └── utilities/      # Reusable utility functions
+│   │   ├── src/                # Shared utilities across all projects
+│   │   │   ├── environment_config.py  # Environment-aware configuration
+│   │   │   └── README.md
+│   │   └── example_project/    # Reference implementation
+│   │       ├── explorations/   # Ad-hoc analysis notebooks
+│   │       ├── transformations/ # Production data transformations
+│   │       └── utilities/      # Reusable utility functions
 │   ├── resources/              # Job definitions (*.job.yml)
 │   └── databricks.yml                  # Main DAB config
 ├── README.md                           # This file
