@@ -3,6 +3,18 @@ resources:
     Example_Project_Job:
       name: "Example_Project_Job"
       
+      # Required job-level tags for Databricks governance
+      tags:
+        team: ${var.tags.team}
+        team_email: ${var.tags.team_email}
+        bu: ${var.tags.bu}
+        persona: ${var.tags.persona}
+        priority: P4
+        regulated_sox: "no"
+        workspace: ${var.workspace}
+        layer: application
+        env: ${var.environment}
+      
       # Schedule (optional - comment out for manual-only jobs)
       schedule:
         quartz_cron_expression: 0 0 8 * * ?  # Daily at 8 AM
@@ -60,9 +72,9 @@ resources:
               min_workers: ${var.min_workers}
               max_workers: ${var.max_workers}
             custom_tags:
-              repo: {{ cookiecutter.repo_name }}
-              regulated_sox: "no"
-              priority: P4
+              repo: ${var.cluster_tags.repo}
+              regulated_sox: ${var.cluster_tags.regulated_sox}
+              priority: ${var.cluster_tags.priority}
               env: ${var.environment}
       
       # Notification settings

@@ -11,6 +11,9 @@ variables:
   environment:
     description: 'Environment name for tagging'
   
+  workspace:
+    description: 'Databricks workspace identifier for tagging'
+  
   cluster_tags:
     description: 'Required cluster tags'
     type: complex
@@ -23,11 +26,14 @@ targets:
   dev:
     variables:
       environment: development
+      workspace: data-eng-dev
   
   qa:
     variables:
       environment: preprod
+      workspace: data-eng-qa
   
   prd:
     variables:
       environment: production
+      workspace: data-eng-prd
